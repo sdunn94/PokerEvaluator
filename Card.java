@@ -1,8 +1,8 @@
 
 public class Card 
 {
-	int numValue;
-	String suitValue;
+	private int numValue;
+	private String suitValue;
 	
 	public Card(int n, String s) 
 	{
