@@ -1,4 +1,6 @@
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,19 +42,57 @@ public class DeckTests
 	@Test
 	public void testShuffle() 
 	{
+		Deck d = new Deck();
+		d.shuffle();
 		
+		for(int i = 0; i < d.getCards().size(); i++)
+		{
+			d.getCards().get(i).printCard();
+		}
+		System.out.println();
 	}
 	
 	@Test
-	public void testDeal() 
+	public void testDeal5Cards() 
 	{
+		Deck d = new Deck();
+		d.shuffle();
+		ArrayList < Card > hand = new ArrayList < Card >();
 		
-	}
-	
-	@Test
-	public void testCardsGetterSetter() 
-	{
+		d.dealCards(5, hand);
+		assertEquals(5, hand.size());
+		assertEquals(47, d.getCards().size());
 		
+		ArrayList < Card > hand2 = new ArrayList < Card >();
+		d.dealCards(5, hand2);
+		assertEquals(5, hand2.size());
+		assertEquals(42, d.getCards().size());
+		
+		for(int i = 0; i < 5; i++)
+		{
+			assertNotEquals(hand.get(i), hand2.get(i));
+		}
 	}
 
+	@Test
+	public void testDeal7Cards() 
+	{
+		Deck d = new Deck();
+		d.shuffle();
+		ArrayList < Card > hand = new ArrayList < Card >();
+		
+		d.dealCards(7, hand);
+		assertEquals(7, hand.size());
+		assertEquals(45, d.getCards().size());
+		
+		ArrayList < Card > hand2 = new ArrayList < Card >();
+		d.dealCards(7, hand2);
+		assertEquals(7, hand2.size());
+		assertEquals(38, d.getCards().size());
+		
+		for(int i = 0; i < 7; i++)
+		{
+			assertNotEquals(hand.get(i), hand2.get(i));
+		}
+	}
 }
