@@ -27,10 +27,14 @@ public class Deck
 	
 	public void dealCards(int numCards, ArrayList < Card > myHand)
 	{
-		
+		for(int i = 0; i < numCards; i++)
+		{
+			myHand.add(cards.get(i));
+			cards.remove(i);
+		}
 	}
 	
-	public void suffle()
+	public void shuffle()
 	{
 		Random randomGenerator = new Random();
 		for(int i = 0; i < cards.size(); i++)

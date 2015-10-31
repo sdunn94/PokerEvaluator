@@ -50,4 +50,18 @@ public class Card
 	{
 		System.out.println(getNumValue() + " of " + getSuitValue());
 	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		boolean retVal = false;
+		
+		Card c = (Card)other;
+		if(getNumValue() == c.getNumValue() && getSuitValue() == c.getSuitValue())
+		{
+			retVal = true;
+		}
+		
+		return retVal;
+	}
 }
