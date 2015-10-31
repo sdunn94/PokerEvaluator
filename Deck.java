@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Deck 
 {
@@ -31,6 +32,13 @@ public class Deck
 	
 	public void suffle()
 	{
-		
+		Random randomGenerator = new Random();
+		for(int i = 0; i < cards.size(); i++)
+		{
+			int x = randomGenerator.nextInt(52);
+			Card c = cards.get(i);
+			cards.set(i, cards.get(x));
+			cards.set(x, c);
+		}
 	}
 }

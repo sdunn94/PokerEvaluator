@@ -6,8 +6,8 @@ public class Card
 	
 	public Card(int n, String s) 
 	{
-		setNumValue(n);
-		setSuitValue(s);
+		numValue = n;
+		suitValue = s;
 	}
 
 	public int getNumValue() 
@@ -15,11 +15,16 @@ public class Card
 		return numValue;
 	}
 
-	public void setNumValue(int numValue) 
+	public void setNumValue(int numValue)  throws CardException
 	{
-		if(numValue > 2 && numValue < 14)
+		if(numValue >= 2 && numValue <= 14)
 		{
 			this.numValue = numValue;
+		}
+		else
+		{
+			CardException c = new CardException();
+			throw c;
 		}
 	}
 
@@ -28,11 +33,16 @@ public class Card
 		return suitValue;
 	}
 
-	public void setSuitValue(String suitValue) 
+	public void setSuitValue(String suitValue) throws CardException
 	{
 		if(suitValue == "Hearts" || suitValue == "Spades" || suitValue == "Diamonds" || suitValue == "Clubs")
 		{
 			this.suitValue = suitValue;
+		}
+		else
+		{
+			CardException c = new CardException();
+			throw c;
 		}
 	}
 	
