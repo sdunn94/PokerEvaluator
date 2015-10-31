@@ -25,12 +25,20 @@ public class Deck
 		return cards;
 	}
 	
-	public void dealCards(int numCards, ArrayList < Card > myHand)
+	public void dealCards(int numCards, ArrayList < Card > myHand) throws DeckException
 	{
-		for(int i = 0; i < numCards; i++)
+		if (numCards >= 0 && numCards <= 52)
 		{
-			myHand.add(cards.get(i));
-			cards.remove(i);
+			for(int i = 0; i < numCards; i++)
+			{
+				myHand.add(cards.get(i));
+				cards.remove(i);
+			}
+		}
+		else
+		{
+			DeckException d = new DeckException();
+			throw d;
 		}
 	}
 	
