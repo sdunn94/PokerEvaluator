@@ -58,19 +58,50 @@ public class DeckTests
 		Deck d = new Deck();
 		d.shuffle();
 		ArrayList < Card > hand = new ArrayList < Card >();
-		
-		d.dealCards(5, hand);
+		try
+		{
+			d.dealCards(5, hand);
+		}
+		catch (DeckException e)
+		{
+			fail();
+		}
 		assertEquals(5, hand.size());
 		assertEquals(47, d.getCards().size());
 		
 		ArrayList < Card > hand2 = new ArrayList < Card >();
-		d.dealCards(5, hand2);
+		try
+		{
+			d.dealCards(5, hand2);
+		}
+		catch (DeckException e)
+		{
+			fail();
+		}
 		assertEquals(5, hand2.size());
 		assertEquals(42, d.getCards().size());
 		
 		for(int i = 0; i < 5; i++)
 		{
 			assertNotEquals(hand.get(i), hand2.get(i));
+		}
+		
+		try
+		{
+			d.dealCards(-4, hand);
+			fail();
+		}
+		catch (DeckException e)
+		{
+		}
+		
+		try
+		{
+			d.dealCards(78, hand);
+			fail();
+		}
+		catch (DeckException e)
+		{
 		}
 	}
 
@@ -81,12 +112,26 @@ public class DeckTests
 		d.shuffle();
 		ArrayList < Card > hand = new ArrayList < Card >();
 		
-		d.dealCards(7, hand);
+		try
+		{
+			d.dealCards(7, hand);
+		}
+		catch (DeckException e)
+		{
+			fail();
+		}
 		assertEquals(7, hand.size());
 		assertEquals(45, d.getCards().size());
 		
 		ArrayList < Card > hand2 = new ArrayList < Card >();
-		d.dealCards(7, hand2);
+		try
+		{
+			d.dealCards(7, hand2);
+		}
+		catch (DeckException e)
+		{
+			fail();
+		}
 		assertEquals(7, hand2.size());
 		assertEquals(38, d.getCards().size());
 		
