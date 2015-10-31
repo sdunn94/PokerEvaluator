@@ -10,7 +10,7 @@ public class CardTests
 	@Before
 	public void setUp() throws Exception 
 	{
-		asdfs
+		
 	}
 
 	@After
