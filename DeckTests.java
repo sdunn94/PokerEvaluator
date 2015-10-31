@@ -22,7 +22,8 @@ public class DeckTests
 	@Test
 	public void testConstructor() 
 	{
-		
+		Deck d = new Deck();
+		assertEquals(52, d.getCards().size());
 	}
 	
 	@Test
