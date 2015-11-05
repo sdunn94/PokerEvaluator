@@ -45,11 +45,17 @@ public class DeckTests
 		Deck d = new Deck();
 		d.shuffle();
 		
-		for(int i = 0; i < d.getCards().size(); i++)
+		//if three consecutive cards are in numerical order and have the same suit, fail the test
+		for(int i = 0; i < d.getCards().size() - 2; i++)
 		{
-			d.getCards().get(i).printCard();
+			if(d.getCards().get(i + 2).getNumValue() - d.getCards().get(i + 1).getNumValue() == 1 
+					&& d.getCards().get(i + 2).getSuitValue() == d.getCards().get(i + 1).getSuitValue()
+					&& d.getCards().get(i + 1).getNumValue() - d.getCards().get(i + 0).getNumValue() == 1 
+					&& d.getCards().get(i + 1).getSuitValue() == d.getCards().get(i + 0).getSuitValue())
+			{
+				fail();
+			}
 		}
-		System.out.println();
 	}
 	
 	@Test

@@ -27,7 +27,7 @@ public class Deck
 	
 	public void dealCards(int numCards, ArrayList < Card > myHand) throws DeckException
 	{
-		if (numCards >= 0 && numCards <= 52)
+		if (numCards >= 0 && numCards < cards.size())
 		{
 			for(int i = 0; i < numCards; i++)
 			{

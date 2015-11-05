@@ -4,10 +4,12 @@ public class Evaluator
 {
 	private int numCards;
 	private int numHands;
+	private ArrayList < Float > handProbabilities;
 	
 	public Evaluator(int n)
 	{
 		numCards = n;
+		handProbabilities = new ArrayList < Float >();
 	}
 	
 	public int getNumCards()
@@ -29,22 +31,126 @@ public class Evaluator
 	{
 		this.numHands = numHands;
 	}
+	
+	public ArrayList < Float > getHandProbabilities()
+	{
+		return handProbabilities;
+	}
 
 	public void playAndDisplay()
 	{
+		ArrayList < Integer > handTypeCounters = new ArrayList < Integer >();
+		for(int i = 0; i < 10; i++)
+			handTypeCounters.add(0);
 		
+		for(int i = 0; i < getNumHands(); i++)
+		{
+			Deck d = new Deck();
+			
+			d.shuffle();
+			
+			ArrayList < Card > hand = new ArrayList < Card >();
+			
+			try 
+			{
+				d.dealCards(getNumCards(), hand);
+			} 
+			catch (DeckException e) 
+			{
+				e.printStackTrace();
+			}
+			
+			if(isRoyalFlush(hand))
+				handTypeCounters.set(0, handTypeCounters.get(0) + 1);
+			else if(isStraightFlush(hand))
+				handTypeCounters.set(1, handTypeCounters.get(1) + 1);
+			else if(isFourOfAKind(hand))
+				handTypeCounters.set(2, handTypeCounters.get(2) + 1);
+			else if(isFullHouse(hand))
+				handTypeCounters.set(3, handTypeCounters.get(3) + 1);
+			else if(isFlush(hand))
+				handTypeCounters.set(4, handTypeCounters.get(4) + 1);
+			else if(isStraight(hand))
+				handTypeCounters.set(5, handTypeCounters.get(5) + 1);
+			else if(isThreeOfAKind(hand))
+				handTypeCounters.set(6, handTypeCounters.get(6) + 1);
+			else if(isTwoPair(hand))
+				handTypeCounters.set(7, handTypeCounters.get(7) + 1);
+			else if(isPair(hand))
+				handTypeCounters.set(8, handTypeCounters.get(8) + 1);
+			else
+				handTypeCounters.set(9, handTypeCounters.get(9) + 1);
+		}
+		
+		Float probability;
+		for (int i = 0; i < 10; i++)
+		{
+			probability = (float) ((Float)(handTypeCounters.get(i).floatValue() / getNumHands()));
+			handProbabilities.add(probability * new Float(100));
+		}
+		
+		System.out.println("The Percent Probability of a Royal Flush is: " + handProbabilities.get(0) + "%" );
+		System.out.println("The Percent Probability of a Straight Flush is: " + handProbabilities.get(1) + "%" );
+		System.out.println("The Percent Probability of a Four of a Kind is: " + handProbabilities.get(2) + "%" );
+		System.out.println("The Percent Probability of a Full House is: " + handProbabilities.get(3) + "%" );
+		System.out.println("The Percent Probability of a Flush is: " + handProbabilities.get(4) + "%" );
+		System.out.println("The Percent Probability of a Straight is: " + handProbabilities.get(5) + "%" );
+		System.out.println("The Percent Probability of a Three of a Kind is: " + handProbabilities.get(6) + "%" );
+		System.out.println("The Percent Probability of a Two Pair is: " + handProbabilities.get(7) + "%" );
+		System.out.println("The Percent Probability of a Pair is: " + handProbabilities.get(8) + "%" );
+		System.out.println("The Percent Probability of a Bad Hand is: " + handProbabilities.get(9) + "%" );
 	}
 
 	public boolean isRoyalFlush(ArrayList < Card > hand)
 	{
-		return false;
+		boolean retVal = false;
 		
+		ArrayList < Card > flush = new ArrayList < Card >();
+		
+		flushFinder(flush, hand);
+		
+		boolean ten = false;
+		boolean jack = false;
+		boolean queen = false;
+		boolean king = false;
+		boolean ace = false;
+		
+		if(flush.size() > 0 && isStraight(flush))
+		{
+			for(int i = 0; i < flush.size(); i++)
+			{
+				if(flush.get(i).getNumValue() == 10)
+					ten = true;
+				else if(flush.get(i).getNumValue() == 11)
+					jack = true;
+				else if(flush.get(i).getNumValue() == 12)
+					queen = true;
+				else if(flush.get(i).getNumValue() == 13)
+					king = true;
+				else if(flush.get(i).getNumValue() == 14)
+					ace = true;
+			}
+		}
+		
+		if(ten && jack && queen && king && ace)
+			retVal = true;
+		
+		return retVal;
 	}
 	
 	public boolean isStraightFlush(ArrayList < Card > hand)
 	{
-		return false;
+		boolean retVal = false;
+		ArrayList < Card > flush = new ArrayList < Card >();
 		
+		flushFinder(flush, hand);
+		
+		if(flush.size() > 0 && isStraight(flush))
+		{
+			retVal = true;
+		}
+		
+		return retVal;
 	}
 	
 	public boolean isFourOfAKind(ArrayList < Card > hand)
@@ -96,7 +202,17 @@ public class Evaluator
 	
 	public boolean isFlush(ArrayList < Card > hand)
 	{
-		return false;
+		boolean retVal = false;
+		ArrayList < Card > flush = new ArrayList < Card >();
+		
+		flushFinder(flush, hand);
+		
+		if(flush.size() > 0)
+		{
+			retVal = true;
+		}
+		
+		return retVal;
 	}
 	
 	public boolean isStraight(ArrayList < Card > hand)
@@ -104,19 +220,26 @@ public class Evaluator
 		boolean retVal = false;
 		sortHand(hand);
 		
-		if(hand.size() == 5 && hand.get(4).getNumValue() - hand.get(0).getNumValue() == 4)
+		int counter = 0;
+
+		//counts every time two cards are consecutive
+		for(int i = 0; i < hand.size() - 1; i++)
 		{
-			retVal = true;
-		}
-		else if(hand.size() == 7)
-		{
-			if(hand.get(4).getNumValue() - hand.get(0).getNumValue() == 4 || 
-					hand.get(5).getNumValue() - hand.get(1).getNumValue() == 4 || 
-					hand.get(6).getNumValue() - hand.get(2).getNumValue() == 4)
+			if(hand.get(i + 1).getNumValue() - hand.get(i).getNumValue() == 1)
 			{
-				retVal = true;
+				counter++;
+			}
+			else if((hand.get(i + 1).getNumValue() - hand.get(i).getNumValue() > 1) && counter < 4)
+			{
+				counter = 0;
 			}
 		}
+
+		//if you have 5 or more consecutive cards return true, else false
+		if(counter >= 4)
+			retVal = true;
+		else
+			retVal = false;
 		
 		return retVal;
 	}
