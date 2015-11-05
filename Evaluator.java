@@ -6,9 +6,17 @@ public class Evaluator
 	private int numHands;
 	private ArrayList < Float > handProbabilities;
 	
-	public Evaluator(int n)
+	public Evaluator(int n) throws EvaluatorException
 	{
-		numCards = n;
+		if(n < 0)
+		{
+			EvaluatorException e = new EvaluatorException();
+			throw e;
+		}
+		else
+		{
+			numCards = n;
+		}
 		handProbabilities = new ArrayList < Float >();
 	}
 	
@@ -17,9 +25,17 @@ public class Evaluator
 		return numCards;
 	}
 	
-	public void setNumCards(int numCards)
+	public void setNumCards(int numCards) throws EvaluatorException
 	{
-		this.numCards = numCards;
+		if(numCards > 0)
+		{
+			this.numCards = numCards;
+		}
+		else
+		{
+			EvaluatorException e = new EvaluatorException();
+			throw e;
+		}
 	}
 	
 	public int getNumHands() 
@@ -27,9 +43,17 @@ public class Evaluator
 		return numHands;
 	}
 
-	public void setNumHands(int numHands) 
+	public void setNumHands(int numHands) throws EvaluatorException
 	{
-		this.numHands = numHands;
+		if(numHands > 0)
+		{
+			this.numHands = numHands;
+		}
+		else
+		{
+			EvaluatorException e = new EvaluatorException();
+			throw e;
+		}
 	}
 	
 	public ArrayList < Float > getHandProbabilities()

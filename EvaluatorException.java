@@ -1,5 +1,5 @@
 
-public class CardException extends Exception
+public class EvaluatorException extends Exception
 {
 
 	/**

@@ -787,7 +787,14 @@ public class EvaluatorTests
 	@Test
 	public void testPlayAndDisplayProbabilities()
 	{
-		e5.setNumHands(100000);
+		try 
+		{
+			e5.setNumHands(100000);
+		}
+		catch (EvaluatorException e) 
+		{
+			e.printStackTrace();
+		}
 		e5.playAndDisplay();
 		
 		ArrayList < Float > percentages = e5.getHandProbabilities();
@@ -805,7 +812,15 @@ public class EvaluatorTests
 		
 		System.out.println();
 		
-		e7.setNumHands(100000);
+		try 
+		{
+			e7.setNumHands(100000);
+		} 
+		catch (EvaluatorException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		e7.playAndDisplay();
 		
 		percentages.clear();
