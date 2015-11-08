@@ -789,7 +789,7 @@ public class EvaluatorTests
 	{
 		try 
 		{
-			e5.setNumHands(100000);
+			e5.setNumHands(1000000);
 		}
 		catch (EvaluatorException e) 
 		{
@@ -814,11 +814,10 @@ public class EvaluatorTests
 		
 		try 
 		{
-			e7.setNumHands(100000);
+			e7.setNumHands(1000000);
 		} 
 		catch (EvaluatorException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		e7.playAndDisplay();
