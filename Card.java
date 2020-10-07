@@ -1,6 +1,7 @@
 
 public class Card 
 {
+//made a change to test
 	private int numValue;
 	private String suitValue;
 	
